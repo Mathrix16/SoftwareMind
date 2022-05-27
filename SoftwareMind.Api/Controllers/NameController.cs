@@ -17,19 +17,19 @@ public class NameController : ControllerBase
         _authenticationManager = authenticationManager;
         _tokenRefresher = tokenRefresher;
     }
-    
+
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate(UserCred userCred)
     {
         var token = _authenticationManager.Authenticate(userCred.Username, userCred.Password);
-            
-        if (token == null) 
+
+        if (token == null)
             return Unauthorized();
-            
+
         return Ok(token);
     }
-    
+
     [AllowAnonymous]
     [HttpPost("refresh")]
     public IActionResult Refresh([FromBody] RefreshCred refreshCred)

@@ -2,8 +2,7 @@
 
 namespace SoftwareMind.Core.Dtos;
 
-public class NewLocation 
+public class NewLocation
 {
-    [Required]
-    public string Name { get; set; }
+    [Required] public string Name { get; set; }
 }

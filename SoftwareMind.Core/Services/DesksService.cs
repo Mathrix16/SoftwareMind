@@ -7,7 +7,6 @@ namespace SoftwareMind.Core.Services;
 
 public class DesksService : IDesksService
 {
-
     private readonly IDesksRepository _desksRepository;
     private readonly ILocationsRepository _locationsRepository;
 
@@ -16,11 +15,12 @@ public class DesksService : IDesksService
         _desksRepository = desksRepository;
         _locationsRepository = locationsRepository;
     }
+
     public async Task<IEnumerable<DeskDto>> GetDesksAsync(Guid locationId, CancellationToken cancellationToken)
     {
         if (!await _locationsRepository.LocationExists(locationId, cancellationToken))
             throw new NotFoundException("Location with given id was not found");
-        
+
         var results = await _desksRepository.GetDesksAsync(locationId, cancellationToken);
 
         return results.Select(d => new DeskDto(d));
@@ -30,11 +30,11 @@ public class DesksService : IDesksService
     {
         if (!await _locationsRepository.LocationExists((Guid) newDesk.LocationId!, cancellationToken))
             throw new NotFoundException("Location with given id was not found");
-        
+
         var desk = new Desk
         {
             IsAvailable = newDesk.IsAvailable,
-            LocationId = (Guid)newDesk.LocationId!,
+            LocationId = (Guid) newDesk.LocationId!,
             Name = newDesk.Name
         };
         return await _desksRepository.AddDesk(desk, cancellationToken);
@@ -44,7 +44,7 @@ public class DesksService : IDesksService
     {
         if (!await _desksRepository.DeskExists(locationId, id, cancellationToken))
             throw new NotFoundException("Desk with given id was not found");
-        
+
         if (await _desksRepository.DeskHasAnyActiveReservations(locationId, id, cancellationToken))
             throw new BadRequestException("Can not remove desk that has active reservations");
 
@@ -55,7 +55,7 @@ public class DesksService : IDesksService
     {
         var locationId = (Guid) updatedDesk.LocationId!;
         var id = (Guid) updatedDesk.Id!;
-        
+
         if (!await _desksRepository.DeskExists(locationId, id, cancellationToken))
             throw new NotFoundException("Desk with given id was not found");
 

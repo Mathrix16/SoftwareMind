@@ -5,8 +5,8 @@ namespace SoftwareMind.Core.Helpers;
 
 public class TokenRefresher : ITokenRefresher
 {
-    private readonly byte[] key;
     private readonly IJwtAuthenticationManager jWTAuthenticationManager;
+    private readonly byte[] key;
 
     public TokenRefresher(byte[] key, IJwtAuthenticationManager jWTAuthenticationManager)
     {
@@ -28,16 +28,13 @@ public class TokenRefresher : ITokenRefresher
                 ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
             }, out validatedToken);
         var jwtToken = validatedToken as JwtSecurityToken;
-        if(jwtToken == null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-        {
+        if (jwtToken == null ||
+            !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             throw new SecurityTokenException("Invalid token passed!");
-        }
 
         var userName = pricipal.Identity.Name;
-        if(refreshCred.RefreshToken != jWTAuthenticationManager.UsersRefreshTokens[userName])
-        {
+        if (refreshCred.RefreshToken != jWTAuthenticationManager.UsersRefreshTokens[userName])
             throw new SecurityTokenException("Invalid token passed!");
-        }
 
         return jWTAuthenticationManager.Authenticate(userName, pricipal.Claims.ToArray());
     }

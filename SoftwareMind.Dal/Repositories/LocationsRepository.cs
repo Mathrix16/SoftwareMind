@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SoftwareMind.Dal.Entities;
 
 namespace SoftwareMind.Dal.Repositories;

@@ -4,14 +4,6 @@ namespace SoftwareMind.Core.Dtos;
 
 public class DeskDto
 {
-    public Guid Id { get; set; }
-    
-    public Guid LocationId { get; set; }
-    
-    public string Name { get; set; }
-    
-    public bool IsAvailable { get; set; }
-
     public DeskDto(Desk desk)
     {
         Id = desk.Id;
@@ -19,4 +11,12 @@ public class DeskDto
         Name = desk.Name;
         IsAvailable = desk.IsAvailable;
     }
+
+    public Guid Id { get; set; }
+
+    public Guid LocationId { get; set; }
+
+    public string Name { get; set; }
+
+    public bool IsAvailable { get; set; }
 }

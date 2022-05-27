@@ -21,7 +21,7 @@ public class ReservationsService : IReservationsService
     {
         if (!await _desksRepository.DeskExists(locationId, deskId, cancellationToken))
             throw new NotFoundException("Desk with given id was not found");
-        
+
         var result = await _reservationsRepository.GetReservationsAsync(locationId, deskId, cancellationToken);
 
         return result.Select(r => new ReservationDto(r));
@@ -34,12 +34,12 @@ public class ReservationsService : IReservationsService
 
         var desk = await _desksRepository.GetDeskById(locationId, deskId, cancellationToken);
 
-        if(desk is null)
+        if (desk is null)
             throw new NotFoundException("Desk with given id was not found");
 
         if (!desk.IsAvailable)
             throw new BadRequestException("Given desk is not available");
-        
+
         if (newReservation.StartDate < DateTime.Now || newReservation.EndDate < newReservation.StartDate)
             throw new BadRequestException("Given dates are incorrect");
 
@@ -74,10 +74,10 @@ public class ReservationsService : IReservationsService
             throw new NotFoundException("Reservation with given id was not found");
 
         var desk = await _desksRepository.GetDeskById(newLocationId, newDeskId, cancellationToken);
-        
+
         if (desk is null)
             throw new NotFoundException("Target desk with given id was not found");
-        
+
         if (!desk.IsAvailable)
             throw new BadRequestException("Given desk is not available");
 

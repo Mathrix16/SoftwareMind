@@ -8,9 +8,8 @@ public interface IReservationsRepository
         CancellationToken cancellationToken);
 
     Task<Reservation?> GetReservationById(Guid locationId, Guid deskId, Guid id, CancellationToken cancellationToken);
-    
+
     Task<Guid> ReserveDesk(Reservation reservation, CancellationToken cancellationToken);
 
     Task ChangeReservation(Reservation newReservation, Reservation oldReservation, CancellationToken cancellationToken);
-    
 }

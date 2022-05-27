@@ -42,7 +42,7 @@ public class DesksRepository : IDesksRepository
     {
         var desk = await _dbContext.Desks.FirstAsync(p => p.LocationId == inputDesk.LocationId && p.Id == inputDesk.Id,
             cancellationToken);
-        
+
         desk.IsAvailable = inputDesk.IsAvailable;
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
@@ -53,17 +53,18 @@ public class DesksRepository : IDesksRepository
             .AnyAsync(p => p.Id == id && p.LocationId == locationId, cancellationToken);
     }
 
+    public async Task<bool> DeskHasAnyActiveReservations(Guid locationId, Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Reservations.AsNoTracking()
+            .AnyAsync(r => r.LocationId == locationId && r.DeskId == id && r.EndDate >= DateTime.Now,
+                cancellationToken);
+    }
+
     public async Task<bool> IsDeskAvailable(Guid locationId, Guid id, CancellationToken cancellationToken)
     {
         var desk = await _dbContext.Desks.AsNoTracking()
             .FirstAsync(p => p.Id == id && p.LocationId == locationId, cancellationToken);
-        
-        return desk.IsAvailable;
-    }
 
-    public async Task<bool> DeskHasAnyActiveReservations(Guid locationId, Guid id, CancellationToken cancellationToken)
-    {
-        return await _dbContext.Reservations.AsNoTracking()
-            .AnyAsync(r => r.LocationId == locationId && r.DeskId == id && r.EndDate >= DateTime.Now, cancellationToken);
+        return desk.IsAvailable;
     }
 }

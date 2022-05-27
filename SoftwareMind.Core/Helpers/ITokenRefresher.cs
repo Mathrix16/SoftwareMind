@@ -1,7 +1,6 @@
-﻿namespace SoftwareMind.Core.Helpers
+﻿namespace SoftwareMind.Core.Helpers;
+
+public interface ITokenRefresher
 {
-    public interface ITokenRefresher
-    {
-        AuthenticationResponse Refresh(RefreshCred refreshCred);
-    }
+    AuthenticationResponse Refresh(RefreshCred refreshCred);
 }

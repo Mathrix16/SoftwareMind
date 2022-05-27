@@ -13,7 +13,7 @@ public interface IDesksRepository
     Task DeleteDesk(Guid locationId, Guid id, CancellationToken cancellationToken);
 
     Task UpdateDesk(Desk inputDesk, CancellationToken cancellationToken);
-    
+
     Task<bool> DeskExists(Guid locationId, Guid id, CancellationToken cancellationToken);
 
     Task<bool> DeskHasAnyActiveReservations(Guid locationId, Guid id, CancellationToken cancellationToken);

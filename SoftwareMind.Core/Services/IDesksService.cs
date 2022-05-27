@@ -11,5 +11,4 @@ public interface IDesksService
     Task DeleteDesk(Guid locationId, Guid id, CancellationToken cancellationToken);
 
     Task UpdateDesk(UpdatedDesk updatedDesk, CancellationToken cancellationToken);
-    
 }
